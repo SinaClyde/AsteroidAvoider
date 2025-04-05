@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -9,29 +6,29 @@ public class ScoreSystem : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private float scoreMultiplier;
 
-    private bool shouldCount = true;
-    private float score;
+    private bool _shouldCount = true;
+    private float _score;
 
     void Update()
     {
-        if (!shouldCount) { return; }
+        if (!_shouldCount) { return; }
 
-        score += Time.deltaTime * scoreMultiplier;
+        _score += Time.deltaTime * scoreMultiplier;
 
-        scoreText.text = Mathf.FloorToInt(score).ToString();
+        scoreText.text = Mathf.FloorToInt(_score).ToString();
     }
 
     public int EndTimer()
     {
-        shouldCount = false;
+        _shouldCount = false;
 
         scoreText.text = string.Empty;
 
-        return Mathf.FloorToInt(score);
+        return Mathf.FloorToInt(_score);
     }
 
     public void StartTimer()
     {
-        shouldCount = true;
+        _shouldCount = true;
     }
 }

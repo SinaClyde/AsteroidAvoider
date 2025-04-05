@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidSpawner : MonoBehaviour
@@ -8,23 +6,23 @@ public class AsteroidSpawner : MonoBehaviour
     [SerializeField] private float secondsBetweenAsteroids = 1.5f;
     [SerializeField] private Vector2 forceRange;
 
-    private Camera mainCamera;
-    private float timer;
+    private Camera _mainCamera;
+    private float _timer;
 
     void Start()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
     }
 
     void Update()
     {
-        timer -= Time.deltaTime;
+        _timer -= Time.deltaTime;
 
-        if (timer <= 0)
+        if (_timer <= 0)
         {
             SpawnAsteroid();
 
-            timer += secondsBetweenAsteroids;
+            _timer += secondsBetweenAsteroids;
         }
     }
 
@@ -63,7 +61,7 @@ public class AsteroidSpawner : MonoBehaviour
                 break;
         }
 
-        Vector3 worldSpawnPoint = mainCamera.ViewportToWorldPoint(spawnPoint);
+        Vector3 worldSpawnPoint = _mainCamera.ViewportToWorldPoint(spawnPoint);
         worldSpawnPoint.z = 0;
 
         GameObject selectedAsteroid = asteroidPrefabs[Random.Range(0, asteroidPrefabs.Length)];

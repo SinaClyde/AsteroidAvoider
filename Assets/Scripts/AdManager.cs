@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -14,9 +12,9 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public static AdManager Instance;
 
-    private string gameId;
-    private string adUnitId;
-    private GameOverHandler gameOverHandler;
+    private string _gameId;
+    private string _adUnitId;
+    private GameOverHandler _gameOverHandler;
 
     private void Awake()
     {
@@ -42,13 +40,13 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         gameId = androidGameId;
         adUnitId = androidAdUnitId;
 #elif UNITY_EDITOR
-        gameId = androidGameId;
-        adUnitId = androidAdUnitId;
+        _gameId = androidGameId;
+        _adUnitId = androidAdUnitId;
 #endif
 
         if (!Advertisement.isInitialized)
         {
-            Advertisement.Initialize(gameId, testMode, this);
+            Advertisement.Initialize(_gameId, testMode, this);
         }
     }
 
@@ -69,12 +67,12 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
-        Debug.Log($"Error loading Ad Unit {adUnitId}: {error.ToString()} - {message}");
+        Debug.Log($"Error loading Ad Unit {_adUnitId}: {error.ToString()} - {message}");
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-        Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
+        Debug.Log($"Error showing Ad Unit {_adUnitId}: {error.ToString()} - {message}");
     }
 
     public void OnUnityAdsShowStart(string placementId)
@@ -89,17 +87,17 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
-        if (placementId.Equals(adUnitId)
+        if (placementId.Equals(_adUnitId)
             && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
-            gameOverHandler.ContinueGame();
+            _gameOverHandler.ContinueGame();
         }
     }
 
     public void ShowAd(GameOverHandler gameOverHandler)
     {
-        this.gameOverHandler = gameOverHandler;
+        this._gameOverHandler = gameOverHandler;
 
-        Advertisement.Load(adUnitId, this);
+        Advertisement.Load(_adUnitId, this);
     }
 }
